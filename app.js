@@ -44,6 +44,8 @@ passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
 
 // mongoose
+// fix for deprecated mongoose
+mongoose.Promise = global.Promise;
 mongoose.connect('mongodb://localhost/paymart');
 
 
