@@ -14,7 +14,8 @@ var users = require('./routes/users');
 var app = express();
 
 // view engine setup
-app.set('views', path.join(__dirname, 'views'));
+app.set('views', path.join(__dirname, './../client'));
+console.log(path.join(__dirname, './../client'));
 app.engine('html', require('ejs').renderFile);
 app.set('view engine', 'html');
 
@@ -32,10 +33,16 @@ app.use(require('express-session')({
 }));
 app.use(passport.initialize());
 app.use(passport.session());
-app.use(express.static(path.join(__dirname, 'public')));
+
+console.log(path.join(__dirname, '../client'));
+app.use(express.static(path.join(__dirname, '../client')));
+
 
 app.use('/', index);
 app.use('/users', users);
+app.use('/assets', express.static(__dirname + '../client/assets'));
+app.use('/build',  express.static(__dirname + '../client/build'));
+app.use('/components',  express.static(__dirname + '../client/components'));
 
 // passport config
 var User = require('./models/user');

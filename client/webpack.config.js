@@ -2,8 +2,11 @@ var path = require('path');
 var webpack = require('webpack');
 
 module.exports = {
-  entry: './public/javascripts/login-form.jsx',
-  output: { path: path.resolve(__dirname, 'public', 'javascripts'), filename: 'bundle.js' },
+  entry: './components/login-form.jsx',
+  output: {
+    path: __dirname + '/build', 
+    filename: 'bundle.js'
+  },
   watch: true,
   module: {
   loaders: [

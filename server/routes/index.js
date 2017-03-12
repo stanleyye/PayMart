@@ -1,15 +1,21 @@
+var path = require('path');
 var express = require('express');
 var passport = require('passport');
 var User = require('../models/user');
 var router = express.Router();
 
+
 router.get('/', function (req, res) {
-	res.render('index', { user : req.user });
+    console.log("[INFO] Homepage");
+ //    console.log(path.join(__dirname, '../', 'index.html'));
+	// res.sendFile(path.join(__dirname, '../', 'index.html'));
+    console.log(path.join(__dirname, './../../client', 'index.html'));
+    res.sendFile(path.join(__dirname, './../../client', 'index.html'));
 });
 
 router.get('/register', function(req, res) {
 	console.log("ree");
-	res.render('register', { });
+	res.sendFile(path.join(__dirname, '../', 'client', 'index.html'));
 });
 
 router.post('/register', function(req, res) {

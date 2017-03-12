@@ -21817,7 +21817,7 @@ var LoginForm = function (_React$Component) {
   return LoginForm;
 }(_react2.default.Component);
 
-_reactDom2.default.render(_react2.default.createElement(LoginForm, null), document.getElementById('login-form'));
+_reactDom2.default.render(_react2.default.createElement(LoginForm, null), document.getElementById('react'));
 
 /***/ })
 /******/ ]);

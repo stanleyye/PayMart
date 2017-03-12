@@ -63,5 +63,5 @@ class LoginForm extends React.Component {
 
 ReactDOM.render(
 	<LoginForm />, 
-	document.getElementById('login-form')
+	document.getElementById('react')
 );

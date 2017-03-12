@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "description": "An e-commerce platform",
   "scripts": {
-    "start": "node ./bin/www",
+    "start": "nodemon ./bin/www",
     "babel": "babel",
     "webpack": "webpack"
   },
@@ -21,6 +21,8 @@
     "passport-local-mongoose": "^4.0.0",
     "react": "^15.4.2",
     "react-dom": "^15.4.2",
+    "react-redux": "^5.0.3",
+    "redux": "^3.6.0",
     "serve-favicon": "~2.3.2"
   },
   "devDependencies": {
@@ -28,6 +30,7 @@
     "babel-loader": "^6.4.0",
     "babel-preset-es2015": "^6.22.0",
     "babel-preset-react": "^6.23.0",
+    "nodemon": "^1.11.0",
     "webpack": "^2.2.1"
   }
 }
