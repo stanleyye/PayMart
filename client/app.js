@@ -1,16 +1,15 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { BrowserRouter, Match } from 'react-router';
+import { BrowserRouter as Router, Route } from 'react-router-dom';
 
 import Home from './components/home';
 
 const App = (props) => (
-	<BrowserRouter>
-	  <div className="app">
-	  	<h1>Hello World</h1>
+	<Router>
+	  <div>
+	    <Route exact path="/" component={Home}/>
 	  </div>
-	  <Match exactly pattern="/" component={Home}/>
-  </BrowserRouter>
+	</Router>
 );
 
 export default App;

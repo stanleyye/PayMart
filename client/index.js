@@ -2,6 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 // import { Provider } from 'react-redux';
 
+
 import App from './app.js';
 
 // import thunk from 'redux-thunk';
@@ -13,7 +14,6 @@ import App from './app.js';
 //   </Provider>,
 //   document.getElementById('root')
 // );
-console.log(App);
 
 ReactDOM.render(
   <App />,

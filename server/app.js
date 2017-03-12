@@ -37,16 +37,18 @@ app.use(passport.session());
 console.log(path.join(__dirname, '../client'));
 app.use(express.static(path.join(__dirname, '../client')));
 
+// commented out because of react routing
+// app.use('/', index);
+// app.use('/users', users);
 
-app.use('/', index);
-app.use('/users', users);
 app.use('/assets', express.static(__dirname + '../client/assets'));
 app.use('/build',  express.static(__dirname + '../client/build'));
 app.use('/components',  express.static(__dirname + '../client/components'));
 
-// app.get('*', function (req, res){
-//   res.sendFile(path.join(__dirname, './../../client', 'index.html'));
-// })
+// routing mostly on the frontend side? 
+app.get('*', function (req, res){
+  res.sendFile(path.join(__dirname, './../../client', 'index.html'));
+})
 
 // passport config
 var User = require('./models/user');
