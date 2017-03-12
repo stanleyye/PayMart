@@ -44,6 +44,10 @@ app.use('/assets', express.static(__dirname + '../client/assets'));
 app.use('/build',  express.static(__dirname + '../client/build'));
 app.use('/components',  express.static(__dirname + '../client/components'));
 
+// app.get('*', function (req, res){
+//   res.sendFile(path.join(__dirname, './../../client', 'index.html'));
+// })
+
 // passport config
 var User = require('./models/user');
 passport.use(new LocalStrategy(User.authenticate()));

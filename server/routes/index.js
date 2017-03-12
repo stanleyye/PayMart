@@ -7,14 +7,12 @@ var router = express.Router();
 
 router.get('/', function (req, res) {
     console.log("[INFO] Homepage");
- //    console.log(path.join(__dirname, '../', 'index.html'));
-	// res.sendFile(path.join(__dirname, '../', 'index.html'));
     console.log(path.join(__dirname, './../../client', 'index.html'));
     res.sendFile(path.join(__dirname, './../../client', 'index.html'));
 });
 
 router.get('/register', function(req, res) {
-	console.log("ree");
+	console.log("[INFO] register");
 	res.sendFile(path.join(__dirname, '../', 'client', 'index.html'));
 });
 
