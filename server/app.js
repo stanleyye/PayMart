@@ -10,7 +10,7 @@ var bodyParser = require('body-parser');
 
 var mongoose = require('mongoose');
 var passport = require('passport');
-var LocalStrategy = require('passport-local').Strategy;
+// var LocalStrategy = require('passport-local').Strategy;
 
 var index = require('./routes/index');
 var users = require('./routes/users');
@@ -39,7 +39,7 @@ app.use(require('express-session')({
 }));
 
 app.use(passport.initialize());
-app.use(passport.session());
+require('./middleware/auth')();
 
 console.log(path.join(__dirname, '../client'));
 app.use(express.static(path.join(__dirname, '../client')));
@@ -52,10 +52,10 @@ app.use('/build',  express.static(__dirname + '../client/build'));
 app.use('/components',  express.static(__dirname + '../client/components'));
 
 // passport config
-var User = require('./models/user');
-passport.use(new LocalStrategy(User.authenticate()));
-passport.serializeUser(User.serializeUser());
-passport.deserializeUser(User.deserializeUser());
+// var User = require('./models/user');
+// passport.use(new LocalStrategy(User.authenticate()));
+// passport.serializeUser(User.serializeUser());
+// passport.deserializeUser(User.deserializeUser());
 
 // mongoose
 // fix for deprecated mongoose

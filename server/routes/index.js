@@ -2,6 +2,8 @@ var path = require('path');
 var express = require('express');
 var passport = require('passport');
 var User = require('../models/user');
+var config = require('../config');
+var jwt = require('jsonwebtoken');
 var router = express.Router();
 
 // react router takes care of routing on the front end side
@@ -10,31 +12,56 @@ router.get('*', function (req, res) {
 });
 
 router.post('/register', function(req, res, next) {
-  console.log('registering user', req.body.first_name);
-  console.log('password', req.body.password);
-
-  User.register(new User({ 
-      username : req.body.username, 
+  if(!req.body.username || !req.body.password || !req.body.email || !req.body.first_name || !req.body.last_name) {
+    res.json({ 
+      success: false, 
+      message: 'Authentication failed. One or more fields are missing.' });
+  } else {
+    var newUser = new User({
+      username: req.body.username,
+      email: req.body.email,
+      password: req.body.password,
       first_name: req.body.first_name,
       last_name: req.body.last_name
-    }), req.body.password, function(err, user) {
+    });
 
+    // Attempt to save the user
+    newUser.save(function(err) {
       if (err) {
-        console.log('error while user register!', err);
-        return next(err);
-      } 
+        return res.json({ success: false, message: 'Authentication failed. The username or email is not unique.'});
+      }
+      res.json({ success: true, message: 'Successfully created new user.' });
+    });
+  }
 
-      console.log("Registered a User:", user);
-
-      passport.authenticate('local')(req, res, function() {
-      	console.log("[INFO] authentication with passport");
-      	res.redirect('/');
-      });
-  });
 });
 
-router.post('/login', passport.authenticate('local'), function(req, res) {
-	res.redirect('/');
+router.post('/login', function(req, res) {
+	User.findOne({
+    username: req.body.username
+  }, function(err, user) {
+    if (err) throw err;
+
+    if (!user) {
+      res.send({ success: false, message: 'Authentication failed. User not found.' });
+    } else {
+      // Check if password matches
+      user.comparePassword(req.body.password, function(err, isMatch) {
+        if (isMatch && !err) {
+          var payload = {
+            username: user.username
+          }
+          var token = jwt.sign(payload, config.jwtSecret, {
+            // expires in 48 hours
+            expiresIn: 172800 
+          });
+          res.json({ success: true, token: token });
+        } else {
+          res.send({ success: false, message: 'Authentication failed. Passwords did not match.' });
+        }
+      });
+    }
+  });
 });
 
 router.get('/logout', function(req, res) {

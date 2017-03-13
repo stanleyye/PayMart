@@ -1,9 +1,8 @@
 var mongoose = require('mongoose');
+var bcrypt = require('bcrypt');
 var Schema = mongoose.Schema;
-var passportLocalMongoose = require('passport-local-mongoose');
 
-// by default, passport-local-mongoose includes username + password
-var User = new Schema({
+var UserSchema = new Schema({
 		created_at: { 
 			type: Date, 
 			default: Date.now 
@@ -12,11 +11,59 @@ var User = new Schema({
 			type: Date,
 			default: Date.now
 		},
-		first_name: String,
-		last_name: String,
-    email: String
+		first_name: {
+			type: String,
+			required: true
+		},
+		last_name: {
+			type: String,
+			required: true
+		},
+		username: {
+			type: String,
+			unique: true,
+			required: true
+		}, 
+		password: {
+			type: String,
+			required: true
+		},
+    email: {
+    	type: String,
+    	unique: true,
+    	required: true
+    }
 });
 
-User.plugin(passportLocalMongoose);
+// Hash the user's password before inserting a new user
+UserSchema.pre('save', function(next) {
+  var user = this;
+  if (this.isModified('password') || this.isNew) {
+    bcrypt.genSalt(10, function(err, salt) {
+      if (err) {
+        return next(err);
+      }
+      bcrypt.hash(user.password, salt, function(err, hash) {
+        if (err) {
+          return next(err);
+        }
+        user.password = hash;
+        next();
+      });
+    });
+  } else {
+    return next();
+  }
+});
 
-module.exports = mongoose.model('User', User);
+// Compare password input to password saved in database
+UserSchema.methods.comparePassword = function(pw, cb) {
+  bcrypt.compare(pw, this.password, function(err, isMatch) {
+    if (err) {
+      return cb(err);
+    }
+    cb(null, isMatch);
+  });
+};
+
+module.exports = mongoose.model('User', UserSchema);
