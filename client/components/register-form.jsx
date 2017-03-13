@@ -28,6 +28,12 @@ class RegisterForm extends Component {
         </div>
 
         <div>
+          <label htmlFor="username">Username</label>
+          <Field name="username" component="input" type="text"
+                 validate={required} />
+        </div>
+
+        <div>
           <label htmlFor="password">Password</label>
           <Field name="password" component="input" type="password"
                  validate={required} />

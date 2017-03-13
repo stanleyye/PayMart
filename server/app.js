@@ -4,6 +4,10 @@ var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
+
+// jwt authentication
+// var auth = require('./middleware/auth');
+
 var mongoose = require('mongoose');
 var passport = require('passport');
 var LocalStrategy = require('passport-local').Strategy;
@@ -25,11 +29,15 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 
+// initialize jwt authentication
+//app.use(auth.initialize());
+
 app.use(require('express-session')({
     secret: 'secret key',
     resave: false,
     saveUninitialized: false
 }));
+
 app.use(passport.initialize());
 app.use(passport.session());
 
@@ -52,7 +60,11 @@ passport.deserializeUser(User.deserializeUser());
 // mongoose
 // fix for deprecated mongoose
 mongoose.Promise = global.Promise;
-mongoose.connect('mongodb://localhost/paymart');
+mongoose.connect('mongodb://localhost/paymart', function(err) {
+  if (err) {
+    console.log('Could not connect to MongoDB');
+  }
+});
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

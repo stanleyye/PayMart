@@ -6,23 +6,30 @@ var router = express.Router();
 
 // react router takes care of routing on the front end side
 router.get('*', function (req, res) {
-    res.sendFile(path.join(__dirname, './../../client', 'index.html'));
+  res.sendFile(path.join(__dirname, './../../client', 'index.html'));
 });
 
-router.post('/register', function(req, res) {
-	console.log("[INFO] Received post req for Register");
-	console.log("[INFO]", "body:", req.body);
-  User.register(new User({ username : req.body.username }), req.body.password, function(err, user) {
-    if (err) {
-    	return res.render('register', { user : user });
-    }
+router.post('/register', function(req, res, next) {
+  console.log('registering user', req.body.first_name);
+  console.log('password', req.body.password);
 
-    console.log("Registered a User:", user);
+  User.register(new User({ 
+      username : req.body.username, 
+      first_name: req.body.first_name,
+      last_name: req.body.last_name
+    }), req.body.password, function(err, user) {
 
-    passport.authenticate('local')(req, res, function() {
-    	console.log("[INFO] authentication with passport");
-    	res.redirect('/');
-    });
+      if (err) {
+        console.log('error while user register!', err);
+        return next(err);
+      } 
+
+      console.log("Registered a User:", user);
+
+      passport.authenticate('local')(req, res, function() {
+      	console.log("[INFO] authentication with passport");
+      	res.redirect('/');
+      });
   });
 });
 
