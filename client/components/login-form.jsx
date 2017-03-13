@@ -1,67 +1,35 @@
-'use strict';
+import React, { Component } from 'react';
+import { Field, reduxForm } from 'redux-form';
 
-import React from 'react';
-import ReactDOM from 'react-dom';
+const required = value => value ? undefined : 'Required';
 
-class LoginForm extends React.Component {
-	constructor(props) {
-    super(props);
-    this.state = {
-      'username': '',
-      'password': ''
-    };
+class LoginForm extends Component {
+	render() {
+		const { handleSubmit } = this.props;
 
-    this.handleChange = this.handleChange.bind(this);
-    this.handleSubmit = this.handleSubmit.bind(this);
-  }
+		return (
+      <form onSubmit={handleSubmit}>
+        <div>
+          <label htmlFor="email">Email</label>
+          <Field name="email" component="input" type="email"
+          			 validate={required} />
+        </div>
 
-  handleChange(event) {
-    const name = event.target.name;
-    const value = event.target.value;
-    this.setState({
-      [name]: value
-    });
-  }
+        <div>
+          <label htmlFor="password">Password</label>
+          <Field name="password" component="input" type="password"
+          			 validate={required} />
+        </div>
 
-  handleSubmit(event) {
-    event.preventDefault();
-    fetch('/register', {  
-      method: 'post',  
-      headers: {  
-        "Content-type": "application/x-www-form-urlencoded; charset=UTF-8"  
-    },  
-      body: 'username=' + this.state.username + '&password=' + this.state.password  
-    })
-    // .then(json)
-    .then(function (data) {  
-      console.log('Request succeeded with JSON response', data);  
-    })  
-    .catch(function (error) {  
-      console.log('Request failed', error);  
-    });
-
-  }
-
-  render() {
-    return (
-      <form role="form" onSubmit={this.handleSubmit}>
-        <label>
-          Username:
-          <input type="text" name="username" placeholder="Enter username" 
-                 value={this.state.username} onChange={this.handleChange} />
-        </label>
-        <label>
-        	Password:
-        	<input type="password" name="password" placeholder="Enter password" 
-                 value={this.state.password} onChange={this.handleChange} />
-          </label>
-        <input type="submit" value="Submit" />
+        <button type="submit">Submit</button>
       </form>
     );
-  }
+	}
 }
 
-ReactDOM.render(
-	<LoginForm />, 
-	document.getElementById('react')
-);
+// Decorate the form component
+LoginForm = reduxForm({
+  form: 'login' // a unique name for this form
+})(LoginForm);
+
+export default LoginForm;

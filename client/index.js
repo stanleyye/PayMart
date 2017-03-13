@@ -1,21 +1,16 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-// import { Provider } from 'react-redux';
-
+import { createStore } from 'redux';
+import { Provider } from 'react-redux';
 
 import App from './app.js';
+import reducers from './reducers/index';
 
-// import thunk from 'redux-thunk';
-// const store = createStore(<insertSomeReducer>?, applyMiddleware(thunk));
-
-// ReactDOM.render(
-//   <Provider store={store}>
-//     <App/>
-//   </Provider>,
-//   document.getElementById('root')
-// );
+const store = createStore(reducers);
 
 ReactDOM.render(
-  <App />,
+	<Provider store={store}>
+  	<App/>
+  </Provider>,
   document.getElementById('root')
 );
