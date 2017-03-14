@@ -18,7 +18,7 @@ export function registerUserSuccess(user) {
 	};
 }
 
-export function registerUser(err) {
+export function registerUserFailure(err) {
 	return {
 		type: REGISTER_USER_FAILURE,
 		payload: err
