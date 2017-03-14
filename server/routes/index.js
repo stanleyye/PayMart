@@ -28,12 +28,14 @@ router.post('/register', function(req, res, next) {
     // Attempt to save the user
     newUser.save(function(err) {
       if (err) {
-        return res.json({ success: false, message: 'Authentication failed. The username or email is not unique.'});
+        return res.json({ 
+          success: false, 
+          message: 'Authentication failed. The username or email is not unique.'
+        });
       }
-      res.json({ success: true, message: 'Successfully created new user.' });
+      res.status(201).json({ success: true, message: 'Successfully created new user.' });
     });
   }
-
 });
 
 router.post('/login', function(req, res) {
@@ -46,18 +48,23 @@ router.post('/login', function(req, res) {
       res.send({ success: false, message: 'Authentication failed. User not found.' });
     } else {
       // Check if password matches
-      user.comparePassword(req.body.password, function(err, isMatch) {
-        if (isMatch && !err) {
-          var payload = {
+      user.comparePassword(req.body.password, function(err, samePassword) {
+        if (samePassword && !err) {
+
+          var token = jwt.sign({
+            // payload
             username: user.username
-          }
-          var token = jwt.sign(payload, config.jwtSecret, {
+          }, config.jwtSecret, {
             // expires in 48 hours
             expiresIn: 172800 
           });
+
           res.json({ success: true, token: token });
         } else {
-          res.send({ success: false, message: 'Authentication failed. Passwords did not match.' });
+          res.send({ 
+            success: false, 
+            message: 'Authentication failed. Passwords did not match.' 
+          });
         }
       });
     }

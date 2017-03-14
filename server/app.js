@@ -4,13 +4,10 @@ var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
-
-// jwt authentication
-// var auth = require('./middleware/auth');
+var config = require('./config');
 
 var mongoose = require('mongoose');
 var passport = require('passport');
-// var LocalStrategy = require('passport-local').Strategy;
 
 var index = require('./routes/index');
 var users = require('./routes/users');
@@ -29,21 +26,20 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 
-// initialize jwt authentication
-//app.use(auth.initialize());
-
 app.use(require('express-session')({
     secret: 'secret key',
     resave: false,
     saveUninitialized: false
 }));
 
+// initialize passport and set passport to use jwt
 app.use(passport.initialize());
 require('./middleware/auth')();
 
 console.log(path.join(__dirname, '../client'));
 app.use(express.static(path.join(__dirname, '../client')));
 
+// used for routing purposes
 app.use('/', index);
 app.use('/users', users);
 
@@ -51,16 +47,10 @@ app.use('/assets', express.static(__dirname + '../client/assets'));
 app.use('/build',  express.static(__dirname + '../client/build'));
 app.use('/components',  express.static(__dirname + '../client/components'));
 
-// passport config
-// var User = require('./models/user');
-// passport.use(new LocalStrategy(User.authenticate()));
-// passport.serializeUser(User.serializeUser());
-// passport.deserializeUser(User.deserializeUser());
-
-// mongoose
-// fix for deprecated mongoose
+// connect to MongoDB database
+// fix for deprecated mongoose?
 mongoose.Promise = global.Promise;
-mongoose.connect('mongodb://localhost/paymart', function(err) {
+mongoose.connect(config.database, function(err) {
   if (err) {
     console.log('Could not connect to MongoDB');
   }

@@ -7,7 +7,7 @@ var UserSchema = new Schema({
 			type: Date, 
 			default: Date.now 
 		},
-		last_updated: {
+		last_logged_in: {
 			type: Date,
 			default: Date.now
 		},
@@ -33,9 +33,13 @@ var UserSchema = new Schema({
     	unique: true,
     	required: true
     }
+}, 
+{	
+	// additional options. 
+	timestamps: true // adds a createdAt and updatedAt field
 });
 
-// Hash the user's password before inserting a new user
+// Hash password
 UserSchema.pre('save', function(next) {
   var user = this;
   if (this.isModified('password') || this.isNew) {
@@ -57,12 +61,12 @@ UserSchema.pre('save', function(next) {
 });
 
 // Compare password input to password saved in database
-UserSchema.methods.comparePassword = function(pw, cb) {
-  bcrypt.compare(pw, this.password, function(err, isMatch) {
+UserSchema.methods.comparePassword = function(password, callback) {
+  bcrypt.compare(password, this.password, function(err, samePassword) {
     if (err) {
-      return cb(err);
+      return callback(err);
     }
-    cb(null, isMatch);
+    callback(null, samePassword);
   });
 };
 
