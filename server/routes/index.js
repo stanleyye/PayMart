@@ -39,6 +39,7 @@ router.post('/register', function(req, res, next) {
 });
 
 router.post('/login', function(req, res) {
+  // TODO: update the last logged in field on every login
 	User.findOne({
     username: req.body.username
   }, function(err, user) {

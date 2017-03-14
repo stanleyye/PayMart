@@ -3,10 +3,6 @@ var bcrypt = require('bcrypt');
 var Schema = mongoose.Schema;
 
 var UserSchema = new Schema({
-		created_at: { 
-			type: Date, 
-			default: Date.now 
-		},
 		last_logged_in: {
 			type: Date,
 			default: Date.now

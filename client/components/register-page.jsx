@@ -6,7 +6,9 @@ import RegisterForm from './register-form';
 class RegisterPage extends React.Component {
   handleSubmit(values) {
     // Do something with the form values
-    console.log(values);
+    dispatch(registerUser(values)).then(function(response) {
+    	console.log(response);
+    });
   }
 
   render() {
