@@ -33,5 +33,8 @@ export default function(state = INITIAL_STATE, action) {
 		// 	};
 
 		// case REGISTER_USER_FAILURE:
+
+		default:
+			return state; 
 	}
 }
