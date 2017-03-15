@@ -35,15 +35,27 @@ const validate = values => {
   } else if (values.password.trim() == '' || !passwordRegex.test(values.password)) {
     errors.password  = 'Invalid password. Requires atleast 1 alphabet and 1 number';
   }
+
+  return errors;
 }
 
 const asyncValidate = (values, dispatch) => {
   // TODO: create an action that handles validating username + email
-  return dispatch(asdfsdfasd)
+  return dispatch(registerUser(values))
     .then((res) => {
-      
-    })
+      console.log(values);
+    });
 }
+
+const renderField = ({ input, label, type, meta: { touched, error } }) => (
+  <div>
+    <label>{label}</label>
+    <div>
+      <input {...input} placeholder={label} type={type}/>
+      {touched && ((error && <span>{error}</span>))}
+    </div>
+  </div>
+)
 
 class RegisterForm extends Component {
 	render() {
@@ -51,49 +63,27 @@ class RegisterForm extends Component {
 
 		return (
       <form onSubmit={handleSubmit}>
-        <div>
-          <label htmlFor="first_name">First Name</label>
-          <Field name="first_name" component="input" type="text"
-                 validate={required} />
-        </div>
+        <Field name="first_name" type="text" label="First name" component={renderField} />
+        <Field name="last_name" type="text" label="Last name" component={renderField} />
+        <Field name="email" type="email" label="Email" component={renderField} />
+        <Field name="username" type="text" label="Username" component={renderField} />
+        <Field name="password" type="password" label="Password" component={renderField} />
 
         <div>
-          <label htmlFor="last_name">Last Name</label>
-          <Field name="last_name" component="input" type="text"
-                 validate={required} />
+          <button type="submit" disabled={ submitting }>
+            Submit
+          </button>
         </div>
-
-        <div>
-          <label htmlFor="email">Email</label>
-          <Field name="email" component="input" type="email"
-                 validate={required} />
-        </div>
-
-        <div>
-          <label htmlFor="username">Username</label>
-          <Field name="username" component="input" type="text"
-                 validate={required} />
-        </div>
-
-        <div>
-          <label htmlFor="password">Password</label>
-          <Field name="password" component="input" type="password"
-                 validate={required} />
-        </div>
-        
-        <button type="submit" disabled={ submitting }>
-          Submit
-        </button>
       </form>
     );
 	}
 }
 
 RegisterForm = reduxForm({
-  form: 'RegisterForm' // a unique name for this form
+  form: 'RegisterForm', // a unique name for this form
   validate,
   asyncValidate,
-  asyncBlurFields: [ 'username']
+  // asyncBlurFields: [ 'username']
 })(RegisterForm);
 
 export default RegisterForm;

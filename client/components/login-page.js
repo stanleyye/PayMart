@@ -63,7 +63,15 @@ class LoginPage extends React.Component {
 
   render() {
     return (
-      <LoginForm onSubmit={this.handleSubmit} />
+      <div>
+        <h1>
+          Login Page
+        </h1>
+      
+        <div>
+          <LoginForm onSubmit={this.handleSubmit} />
+        </div>
+      </div>
     );
   }
 }

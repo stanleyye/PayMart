@@ -2,18 +2,25 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 
 import RegisterForm from './register-form';
+import { registerUser } from '../actions/users'
 
 class RegisterPage extends React.Component {
   handleSubmit(values) {
-    // Do something with the form values
-    dispatch(registerUser(values)).then(function(response) {
-    	console.log(response);
-    });
+    console.log(values);
+    // Do something with the form values    
   }
 
   render() {
     return (
-      <RegisterForm onSubmit={this.handleSubmit} />
+      <div>
+        <h1>
+          Register Page
+        </h1>
+      
+        <div>
+          <RegisterForm onSubmit={this.handleSubmit} />
+        </div>
+      </div>
     );
   }
 }

@@ -23,16 +23,24 @@ export default function(state = INITIAL_STATE, action) {
 				loading: true
 			};
 
-		// case REGISTER_USER_SUCCESS:
-		// 	return {
-		// 		...state,
-		// 		user: action.payload.user,
-		// 		status: 'signup',
-		// 		error: null,
-		// 		loading: true
-		// 	};
+		case REGISTER_USER_SUCCESS:
+			return {
+				...state,
+				user: action.payload.user,
+				status: 'signup',
+				error: null,
+				loading: true
+			};
 
-		// case REGISTER_USER_FAILURE:
+		case REGISTER_USER_FAILURE:
+			err = action.payload.data || {message: action.payload.message};//2nd one is network or server down errors      
+    	return { 
+    		...state, 
+    		user: null, 
+    		status:'signin', 
+    		error: err, 
+    		loading: false
+    	};
 
 		default:
 			return state; 
