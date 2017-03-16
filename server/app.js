@@ -5,6 +5,7 @@ var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var config = require('./config');
+var helmet = require('helmet');
 
 var mongoose = require('mongoose');
 var passport = require('passport');
@@ -20,7 +21,7 @@ app.engine('html', require('ejs').renderFile);
 app.set('view engine', 'html');
 
 // connect to MongoDB database
-// fix for deprecated mongoose?
+// fix for deprecated mongoose promise
 mongoose.Promise = global.Promise;
 mongoose.connect(config.database, function(err) {
   if (err) {
@@ -34,6 +35,8 @@ app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
+// sets appropriate HTTP headers to prevent well-known web vulnerabilities
+app.use(helmet());
 
 app.use(require('express-session')({
     secret: 'secret key',
@@ -45,7 +48,7 @@ app.use(require('express-session')({
 app.use(passport.initialize());
 require('./middleware/auth')();
 
-console.log(path.join(__dirname, '../client'));
+// set root path to /client
 app.use(express.static(path.join(__dirname, '../client')));
 
 // used for routing purposes
@@ -54,7 +57,6 @@ app.use('/users', users);
 
 app.use('/assets', express.static(__dirname + '../client/assets'));
 app.use('/build',  express.static(__dirname + '../client/build'));
-app.use('/components',  express.static(__dirname + '../client/components'));
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
