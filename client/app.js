@@ -2,9 +2,9 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { BrowserRouter as Router, Route } from 'react-router-dom';
 
-import Home from './components/Home';
-import LoginPage from './components/login-page';
-import RegisterPage from './components/register-page';
+import Home from './pages/Home';
+import LoginPage from './pages/login-page';
+import RegisterPage from './pages/register-page';
 
 const App = (props) => (
 	<Router>

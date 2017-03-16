@@ -1,7 +1,8 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 
-import LoginForm from './login-form';
+import LoginFormContainer from '../containers/login-form-container';
+import LoginForm from '../components/login-form';
 
 class LoginPage extends React.Component {
 	// constructor(props) {
@@ -56,11 +57,6 @@ class LoginPage extends React.Component {
   //       <input type="submit" value="Submit" />
       // </form>
 
-  handleSubmit(values) {
-    // Do something with the form values
-    console.log(values);
-  }
-
   render() {
     return (
       <div>
@@ -68,9 +64,7 @@ class LoginPage extends React.Component {
           Login Page
         </h1>
       
-        <div>
-          <LoginForm onSubmit={this.handleSubmit} />
-        </div>
+        <LoginFormContainer />
       </div>
     );
   }
