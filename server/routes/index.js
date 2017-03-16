@@ -46,7 +46,7 @@ router.post('/login', function(req, res) {
     if (err) throw err;
 
     if (!user) {
-      res.send({ success: false, message: 'Authentication failed. User not found.' });
+      res.status(401).send({ success: false, message: 'Authentication failed. User not found.' });
     } else {
       // Check if password matches
       user.comparePassword(req.body.password, function(err, samePassword) {
@@ -62,7 +62,7 @@ router.post('/login', function(req, res) {
 
           res.json({ success: true, token: token });
         } else {
-          res.send({ 
+          res.status(401).send({ 
             success: false, 
             message: 'Authentication failed. Passwords did not match.' 
           });
