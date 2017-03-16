@@ -33,19 +33,19 @@ const validate = values => {
   if (!values.password) {
     errors.password = 'Required';
   } else if (values.password.trim() == '' || !passwordRegex.test(values.password)) {
-    errors.password  = 'Invalid password. Requires atleast 1 alphabet and 1 number';
+    errors.password  = 'Invalid password. Requires atleast 1 alphabet and 1 number and 8 characters?';
   }
 
   return errors;
 }
 
-const asyncValidate = (values, dispatch) => {
-  // TODO: create an action that handles validating username + email
-  return dispatch(registerUser(values))
-    .then((res) => {
-      console.log(values);
-    });
-}
+// const asyncValidate = (values, dispatch) => {
+//   // TODO: create an action that handles validating username + email
+//   return dispatch(registerUser(values))
+//     .then((res) => {
+//       console.log(values);
+//     });
+// }
 
 const renderField = ({ input, label, type, meta: { touched, error } }) => (
   <div>
@@ -82,7 +82,7 @@ class RegisterForm extends Component {
 RegisterForm = reduxForm({
   form: 'RegisterForm', // a unique name for this form
   validate,
-  asyncValidate,
+  // asyncValidate,
   // asyncBlurFields: [ 'username']
 })(RegisterForm);
 
