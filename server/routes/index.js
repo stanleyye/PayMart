@@ -6,12 +6,19 @@ var config = require('../config');
 var jwt = require('jsonwebtoken');
 var router = express.Router();
 
+router.get('/dashboard', passport.authenticate('jwt', { session: false }), function(req, res) {
+  console.log("Asdfsdf");
+  res.json({
+    success: true,
+    message: 'it worked'
+  });
+});
 // react router takes care of routing on the front end side
 router.get('*', function (req, res) {
   res.sendFile(path.join(__dirname, './../../client', 'index.html'));
 });
 
-router.post('/register', function(req, res, next) {
+router.post('/register', function(req, res) {
   if(!req.body.username || !req.body.password || !req.body.email || !req.body.first_name || !req.body.last_name) {
     res.json({ 
       success: false, 
@@ -27,6 +34,7 @@ router.post('/register', function(req, res, next) {
 
     // Attempt to save the user
     newUser.save(function(err) {
+      console.log(err);
       if (err) {
         return res.json({ 
           success: false, 
@@ -60,7 +68,10 @@ router.post('/login', function(req, res) {
             expiresIn: 172800 
           });
 
-          res.json({ success: true, token: token });
+          res.json({ 
+            success: true, 
+            token: 'JWT ' + token 
+          });
         } else {
           res.status(401).send({ 
             success: false, 
@@ -75,10 +86,6 @@ router.post('/login', function(req, res) {
 router.get('/logout', function(req, res) {
     req.logout();
     res.redirect('/');
-});
-
-router.get('/ping', function(req, res){
-    res.status(200).send("pong!");
 });
 
 module.exports = router;

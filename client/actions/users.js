@@ -66,7 +66,11 @@ export function loginUser(formData) {
 		return axios.post('/login', formData)
 			.then(function(response) {
 				console.log("response", response);
-				dispatch(loginUserSuccess(response.status, response.token));
+				console.log("token", response.data.token);
+				// store token in localStorage - persists across all tabs
+				localStorage.setItem('jwt', response.data.token);
+
+				dispatch(loginUserSuccess(response.status, response.data.token));
 			})
 			.catch(function(error) {
 				console.log("error", error);
@@ -100,4 +104,9 @@ export function loginUserFailure(status, err) {
 			err
 		}
 	};
+}
+
+/* Logout */
+export function logoutUser() {
+	localStorage.removeItem('jwt');
 }

@@ -1,6 +1,8 @@
 var passport = require("passport");  
 var passportJWT = require("passport-jwt");  
 
+var User = require('../models/user');
+
 var config = require("./../config.js");  
 var ExtractJwt = passportJWT.ExtractJwt;  
 var jwtStrategy = passportJWT.Strategy;  
@@ -12,16 +14,20 @@ var opt = {
 
 module.exports = function() {  
   passport.use(new jwtStrategy(opt, function(payload, done) {
+    console.log("payload username", payload.username);
     User.findOne({
         username: payload.username
     }, function(err, user) {
+        console.log("error finding the user", err);
+        console.log("user", user);
         if (err) {
             return done(err, false);
         }
         if (user) {
-            return done(null, user);
+            done(null, user);
         } else {
-            return done(new Error("User not found"), null);
+            done(null, false);
+            // return done(new Error("User not found"), null);
         }
     });
   }));
