@@ -10,17 +10,22 @@ module.exports = {
   devtool: 'sourcemap',
   watch: true,
   module: {
-    loaders: [
-     {
-      loader: 'babel-loader',
-      exclude: /node-modules/,
-      query: {
-       presets: ['es2015', 'react']
+    rules: [
+      {
+        test: /\.css$/,
+        use: [ 'style-loader', 'css-loader' ]
+      },
+      {
+        test: /\.js$/,
+        loader: 'babel-loader',
+        exclude: /node-modules/,
+        query: {
+          presets: ['es2015', 'react']
+        }
       }
-     }
     ]
-  },
-  resolve: {
-    extensions: ['.js', '.jsx']
   }
+  // resolve: {
+  //   extensions: ['.js', '.jsx']
+  // }
 };﻿

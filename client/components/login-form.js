@@ -21,9 +21,8 @@ const validate = values => {
 
 const renderField = ({ input, label, type, meta: { touched, error } }) => (
   <div>
-    <label>{label}</label>
-    <div>
-      <input {...input} placeholder={label} type={type}/>
+    <input {...input} placeholder={label} type={type}/>
+    <div className="form-error">
       {touched && ((error && <span>{error}</span>))}
     </div>
   </div>
@@ -34,11 +33,11 @@ class LoginForm extends Component {
 		const { handleSubmit, submitting } = this.props;
 
 		return (
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={handleSubmit} className="login-form">
         <Field name="username" type="text" label="Username" component={renderField} />
         <Field name="password" type="password" label="Password" component={renderField} />
 
-        <div>
+        <div className="form-submit">
           <button type="submit" disabled={ submitting }>
             Submit
           </button>

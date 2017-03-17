@@ -15,3 +15,39 @@ label {
 input {
 	margin-bottom: 10px;
 }
+
+h1 {
+	text-align: center;
+}
+
+.login-form {
+	text-align: center;
+}
+
+.login-form input {
+	text-align: center;
+	border: 0; 
+  border-bottom: 1px solid #625656; 
+  padding: 15px 30px 10px;
+}
+
+.login-form input:focus {
+	outline: 0;
+	border-bottom: 1px solid green;
+}
+
+.form-error {
+	color: red;
+}
+
+.form-submit {
+	margin: 25px auto;
+}
+
+.form-submit button {
+	padding: 10px 30px;
+  background-color: #6da5ef;
+  color: white;
+  border-radius: 5px;
+  border: 0;
+}
