@@ -14,14 +14,6 @@ var CustomerSchema = new Schema({
 	email: {
 		type: String,
 		required: true
-	},
-	transaction_history: {
-		type: Array,
-		default: []
-	},
-	credit_cards: {
-		type: Array,
-		default: []
 	}
 }, 
 {	

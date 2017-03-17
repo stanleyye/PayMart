@@ -3,15 +3,12 @@ var bcrypt = require('bcrypt');
 var Schema = mongoose.Schema;
 
 var TransactionSchema = new Schema({
-  customer: {
-  	type: Schema.Types.ObjectId,
-  	required: true
-  },
+  // TODO: Add products 
   store: {
   	type: Schema.Types.ObjectId,
   	required: true
   },
-  payment_method: {
+  payment: {
     type: Schema.Types.ObjectId,
     required: true
   }
