@@ -12,8 +12,10 @@ var passport = require('passport');
 
 var index = require('./routes/index');
 var users = require('./routes/users');
+var dashboard = require('./routes/dashboard');
 
 var app = express();
+var router = express.Router();
 
 // view engine setup
 app.set('views', path.join(__dirname, './../client'));
@@ -54,9 +56,16 @@ app.use(express.static(path.join(__dirname, '../client')));
 // used for routing purposes
 app.use('/', index);
 app.use('/users', users);
+app.use('/dashboard', dashboard);
 
 app.use('/assets', express.static(__dirname + '../client/assets'));
 app.use('/build',  express.static(__dirname + '../client/build'));
+
+// redirects to frontend react 
+router.get('*', function (req, res) {
+  res.sendFile(path.join(__dirname, './../../client', 'index.html'));
+});
+
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

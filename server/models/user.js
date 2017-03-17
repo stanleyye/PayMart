@@ -3,36 +3,39 @@ var bcrypt = require('bcrypt');
 var Schema = mongoose.Schema;
 
 var UserSchema = new Schema({
-		last_logged_in: {
-			type: Date,
-			default: Date.now
-		},
-		first_name: {
-			type: String,
-			required: true
-		},
-		last_name: {
-			type: String,
-			required: true
-		},
-		username: {
-			type: String,
-			unique: true,
-			required: true
-		}, 
-		password: {
-			type: String,
-			required: true
-		},
-    email: {
-    	type: String,
-    	unique: true,
-    	required: true
-    }
+  last_logged_in: {
+  	type: Date,
+  	default: Date.now
+  },
+  first_name: {
+  	type: String,
+  	required: true
+  },
+  last_name: {
+  	type: String,
+  	required: true
+  },
+  username: {
+  	type: String,
+  	unique: true,
+  	required: true
+  }, 
+  password: {
+  	type: String,
+  	required: true
+  },
+  email: {
+  	type: String,
+  	unique: true,
+  	required: true
+  },
+  store: {
+    type: Schema.Types.ObjectId
+  }
 }, 
 {	
-	// additional options. 
-	timestamps: true // adds a createdAt and updatedAt field
+  // additional options. 
+  timestamps: true // adds a createdAt and updatedAt field
 });
 
 // Hash password

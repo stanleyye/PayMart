@@ -6,46 +6,6 @@ var config = require('../config');
 var jwt = require('jsonwebtoken');
 var router = express.Router();
 
-router.get('/dashboard', passport.authenticate('jwt', { session: false }), function(req, res) {
-  console.log("Asdfsdf");
-  res.json({
-    success: true,
-    message: 'it worked'
-  });
-});
-// react router takes care of routing on the front end side
-router.get('*', function (req, res) {
-  res.sendFile(path.join(__dirname, './../../client', 'index.html'));
-});
-
-router.post('/register', function(req, res) {
-  if(!req.body.username || !req.body.password || !req.body.email || !req.body.first_name || !req.body.last_name) {
-    res.json({ 
-      success: false, 
-      message: 'Authentication failed. One or more fields are missing.' });
-  } else {
-    var newUser = new User({
-      username: req.body.username,
-      email: req.body.email,
-      password: req.body.password,
-      first_name: req.body.first_name,
-      last_name: req.body.last_name
-    });
-
-    // Attempt to save the user
-    newUser.save(function(err) {
-      console.log(err);
-      if (err) {
-        return res.json({ 
-          success: false, 
-          message: 'Authentication failed. The username or email is not unique.'
-        });
-      }
-      res.status(201).json({ success: true, message: 'Successfully created new user.' });
-    });
-  }
-});
-
 router.post('/login', function(req, res) {
   // TODO: update the last logged in field on every login
 	User.findOne({
@@ -86,6 +46,34 @@ router.post('/login', function(req, res) {
 router.get('/logout', function(req, res) {
     req.logout();
     res.redirect('/');
+});
+
+router.post('/register', function(req, res) {
+  if(!req.body.username || !req.body.password || !req.body.email || !req.body.first_name || !req.body.last_name) {
+    res.json({ 
+      success: false, 
+      message: 'Authentication failed. One or more fields are missing.' });
+  } else {
+    var newUser = new User({
+      username: req.body.username,
+      email: req.body.email,
+      password: req.body.password,
+      first_name: req.body.first_name,
+      last_name: req.body.last_name
+    });
+
+    // Attempt to save the user
+    newUser.save(function(err) {
+      console.log(err);
+      if (err) {
+        return res.json({ 
+          success: false, 
+          message: 'Authentication failed. The username or email is not unique.'
+        });
+      }
+      res.status(201).json({ success: true, message: 'Successfully created new user.' });
+    });
+  }
 });
 
 module.exports = router;
