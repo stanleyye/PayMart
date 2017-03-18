@@ -29,8 +29,14 @@ var UserSchema = new Schema({
   	unique: true,
   	required: true
   },
+  admin_level: {
+    type: Number,
+    required: true,
+    default: 2
+  },
   store: {
     type: Schema.Types.ObjectId
+    default: null
   }
 }, 
 {	
@@ -38,21 +44,18 @@ var UserSchema = new Schema({
   timestamps: true // adds a createdAt and updatedAt field
 });
 
-// Hash password
+// bcrypt Hash
 UserSchema.pre('save', function(next) {
   var user = this;
   if (this.isModified('password') || this.isNew) {
-    bcrypt.genSalt(10, function(err, salt) {
+    // default is 10 bcrypt hash rounds
+    bcrypt.hash(user.password, 10, function(err, hash) {
       if (err) {
+        console.log("[INFO] error hashing:", err);
         return next(err);
       }
-      bcrypt.hash(user.password, salt, function(err, hash) {
-        if (err) {
-          return next(err);
-        }
-        user.password = hash;
-        next();
-      });
+      user.password = hash;
+      next();
     });
   } else {
     return next();
@@ -61,7 +64,8 @@ UserSchema.pre('save', function(next) {
 
 // Compare password input to password saved in database
 UserSchema.methods.comparePassword = function(password, callback) {
-  bcrypt.compare(password, this.password, function(err, samePassword) {
+  var hashedPassword = this.password;
+  bcrypt.compare(password, hashedPassword, function(err, samePassword) {
     if (err) {
       return callback(err);
     }

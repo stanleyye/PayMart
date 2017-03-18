@@ -22,7 +22,8 @@ router.post('/login', function(req, res) {
 
           var token = jwt.sign({
             // payload
-            username: user.username
+            username: user.username,
+            auth_level: 3
           }, config.jwtSecret, {
             // expires in 48 hours
             expiresIn: 172800 
