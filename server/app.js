@@ -11,8 +11,13 @@ var mongoose = require('mongoose');
 var passport = require('passport');
 
 var index = require('./routes/index');
-var users = require('./routes/users');
+var analytics = require('./routes/analytics');
 var dashboard = require('./routes/dashboard');
+var products = require('./routes/products');
+var settings = require('./routes/settings');
+var store = require('./routes/store');
+var transactions = require('./routes/transactions');
+
 
 var app = express();
 var router = express.Router();
@@ -54,8 +59,12 @@ require('./middleware/auth')();
 app.use(express.static(path.join(__dirname, '../client')));
 
 // used for routing purposes
+app.use('/analytics', analytics);
 app.use('/dashboard', dashboard);
-app.use('/users', users);
+app.use('/products', products);
+app.use('/settings', settings);
+app.use('/store', store);
+app.use('/transactions', transactions);
 app.use('/', index);
 
 

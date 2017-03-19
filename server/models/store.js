@@ -6,6 +6,18 @@ var StoreSchema = new Schema({
 		type: String,
 		required: true,
 		unique: true
+	},
+	address: {
+		type: String,
+		required: true
+	},
+	country: {
+		type: String,
+		required: true
+	},
+	products: {
+		type: Array,
+		default: []
 	}
 }, 
 {	
