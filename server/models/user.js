@@ -35,7 +35,7 @@ var UserSchema = new Schema({
     default: 2
   },
   store: {
-    type: Schema.Types.ObjectId
+    type: Schema.Types.ObjectId,
     default: null
   }
 }, 

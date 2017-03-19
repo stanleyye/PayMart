@@ -6,6 +6,7 @@ var config = require('../config');
 var jwt = require('jsonwebtoken');
 var router = express.Router();
 
+
 router.post('/login', function(req, res) {
   // TODO: update the last logged in field on every login
 	User.findOne({

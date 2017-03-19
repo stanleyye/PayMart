@@ -54,9 +54,11 @@ require('./middleware/auth')();
 app.use(express.static(path.join(__dirname, '../client')));
 
 // used for routing purposes
-app.use('/', index);
-app.use('/users', users);
 app.use('/dashboard', dashboard);
+app.use('/users', users);
+app.use('/', index);
+
+
 
 app.use('/assets', express.static(__dirname + '../client/assets'));
 app.use('/build',  express.static(__dirname + '../client/build'));
@@ -69,8 +71,8 @@ router.get('*', function (req, res) {
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
-  console.log("req", req);
-  console.log("res", res);
+  // console.log("req", req);
+  // console.log("res", res);
   var err = new Error('Not Found');
   err.status = 404;
   next(err);
