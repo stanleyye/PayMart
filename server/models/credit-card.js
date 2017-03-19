@@ -2,6 +2,7 @@ var mongoose = require('mongoose');
 var bcrypt = require('bcrypt');
 var Schema = mongoose.Schema;
 
+// TODO: encrypt the card number
 var CreditCardSchema = new Schema({
 	card_number: {
 		type: String,

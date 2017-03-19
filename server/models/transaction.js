@@ -11,6 +11,10 @@ var TransactionSchema = new Schema({
   payment: {
     type: Schema.Types.ObjectId,
     required: true
+  },
+  product_checkout: {
+    type: Array,
+    default: []
   }
 }, 
 {	
