@@ -35,15 +35,13 @@ router.get('/', passport.authenticate('jwt', { session: false }), function(req, 
 			
 				res.json({
 					success: true,
-					store: {
-						'name': store.name
-					}
+					store
 				});
 			});
 	}
 });
 
-router.post('/', passport.authenticate('jwt', { session: false}), function(req, res) {
+router.post('/', passport.authenticate('jwt', { session: false }), function(req, res) {
 	// if they are sending a POST request, then they should not have already have a store
 	var currUser = req.user;
 
@@ -77,14 +75,22 @@ router.post('/', passport.authenticate('jwt', { session: false}), function(req, 
 			}
 
 			// set a reference from the user to the store
-			currUser.store = newStore._id;
-			console.log('[Current User]', currUser);
-
-			User.update({
-				store: newStore._id
-			}, function(err) {
-				console.log('[Error]', 'error saving store to user');
-			});
+			User.findOneAndUpdate(
+				{ username: currUser.username }, 
+				{ $set: { store: newStore._id }},
+				{ new: true },
+				function(err, user) {
+					if (err) {
+						console.log('[Error]', 'error saving store to user');
+						res.json({
+							success: true,
+							message: 'Created a store with the name \"' + newStore.name + '\"'
+						});
+					}
+					console.log('[INFO]', 'saving saving store to user');
+					console.log('new user profile', user);
+				}
+			);
 
 			res.json({
 				success: true,

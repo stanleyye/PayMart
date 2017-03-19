@@ -21,4 +21,4 @@ var CreditCardSchema = new Schema({
 	timestamps: true // adds a createdAt and updatedAt field
 });
 
-module.exports = mongoose.model('Customer', CustomerSchema);
+module.exports = mongoose.model('CreditCard', CreditCardSchema);
