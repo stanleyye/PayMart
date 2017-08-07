@@ -1,4 +1,4 @@
-# Paymart 
+# Paymart (In progress)
 
 An e-commerce platform built with Redux/React, Express, Node and MongoDB.
 
